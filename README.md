@@ -1,3 +1,17 @@
+# Instrucciones
+
+```cmd
+java org.antlr.Tool .\main.g
+```
+
+```cmd
+javac .\Test.java
+```
+
+```cmd
+java Test
+```
+
 # Caso de prueba #1
 
 ```java
@@ -17,5 +31,17 @@ public class Algo{
     private int getValue(){
         x=asdf;
     }
+}
+```
+
+# Caso de prueba #3
+
+```java
+public class NombreClas{
+    void hasAlgo() {
+        x = ((n+110-125)*fg+jh)
+        y = ((n+110-125)*fg+jh)
+    }
+
 }
 ```

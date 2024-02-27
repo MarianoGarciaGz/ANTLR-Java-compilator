@@ -12,21 +12,38 @@ grammar main;
     HashMap tablaDeSimbolos = new HashMap();
 }
 
-/* ---------- Reglas ---------- */
+/* ------------------------------ Reglas ------------------------------ */
 
 // Inicial
+init: mod_acceso CLASS ID LLAVEA (metodo | atributo)* LLAVEC;
 
-init: mod_acceso CLASS ID LLAVEA metodo* LLAVEC;
+// Atributo
+atributo: mod_acceso? tipo ID (COMA ID)* PUNTOYCOMA;
 
 // Metodo
+metodo:
+	mod_acceso? directiva? tipo ID PARA decl_args? PARC LLAVEA sentencia* LLAVEC;
 
-metodo: mod_acceso tipo ID PARA PARC LLAVEA sentencia* LLAVEC;
+// declaración de argumentos
+decl_args: tipo ID (COMA tipo ID)*;
+
+// declaración de argumentos
+decl_local: tipo ID (COMA ID)* PUNTOYCOMA;
 
 // sentencia
-sentencia: asignacion;
+sentencia: asignacion | decl_local;
 
 // asignacion
-asignacion: ID IGUALASIG ID PUNTOYCOMA;
+asignacion: ID OPASIGN expr PUNTOYCOMA;
+
+// expresion
+expr: multExpr ((OPMAS | OPMENOS) multExpr)*;
+
+// expresion multiplicación
+multExpr: atom ((OPMULT | OPDIV) atom)*;
+
+// atomo
+atom: ID | CINT | CFLOAT | PARA expr PARC;
 
 id:
 	ID {
@@ -68,10 +85,10 @@ constantes:
 	| CFLOAT
 	| CSTRING
 	| CCHAR {
-          System.out.println("Constante caracter detectado: " + $CCHAR.text);
-          };
+            System.out.println("Constante caracter detectado: " + $CCHAR.text);
+            };
 
-/* ---------- Tokens ---------- */
+/* ------------------------------ Tokens ------------------------------ */
 
 // ops_relacionales:
 MAYOR: '>';
